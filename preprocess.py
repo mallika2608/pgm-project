@@ -5,7 +5,8 @@ import os
 
 fileDir = os.path.dirname(os.path.realpath(__file__))
 dataDir = os.path.join(fileDir, "data")
-fileName = "2. cd3cd28icam2.csv"
+fileName = "1. cd3cd28.csv"
+#fileName = "2. cd3cd28icam2.csv"
 filePath = os.path.join(dataDir, fileName)
 
 def readDataFile():
@@ -86,6 +87,9 @@ def discretize(my_data, mode = 'quantile'):
 if __name__ == '__main__':
 	my_data = readDataFile()
 	my_data = remove_outliers(my_data)
-	#my_data = interval_discretize(my_data)
-	my_data = discretize(my_data, 'quantile')
-	np.savetxt("data/2_quantile_discretized.csv", my_data.T, delimiter = ",", fmt = '%d')
+	my_data = discretize(my_data, 'interval')
+
+	nodes = ['praf','pmek','plcg','PIP2','PIP3','p44/42','pakts473','PKA','PKC','P38','pjnk']
+
+	header_string = ",".join(nodes)
+	np.savetxt("data/1_interval.csv", my_data.T, delimiter = ",", fmt = '%d', header = header_string)
