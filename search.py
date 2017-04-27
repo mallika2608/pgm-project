@@ -6,12 +6,11 @@ from bayesian_network import *
 from scoring import *
 from copy import deepcopy
 from collections import defaultdict
-from math import log
+from math import log, exp
 
 CONST_RANDOM_SEED = 42
 
 np.random.seed(CONST_RANDOM_SEED)
-
 
 def add_edge(G, u, v):
 
@@ -164,3 +163,82 @@ def greedy_hill_climbing_search(data, network):
 
 	return network
 
+def acceptance_probability(old_cost, new_cost, temp):
+
+	return exp( min(1, (old_cost - new_cost) / float(temp) ) )
+
+def simulated_annealing(data, network):
+
+	temp = 1.0
+	temp_min = 0.35
+	alpha = 0.8
+
+	G_best = deepcopy(network.G)
+
+	while temp > temp_min:
+	
+	 	i = 1
+
+	 	print "Current temp ", temp
+
+	 	while i <= 10:
+
+			G_o = deepcopy(G_best)
+
+			#Choose type of next move
+			move_type = np.random.randint(3)
+
+			#If there are no edges, we can only add an edge
+			if(len(G_o.edges()) == 0): move_type = 0
+
+			if(move_type == 0):
+				#Add edge
+				u = np.random.choice(G_o.nodes())
+				v = np.random.choice(G_o.nodes())
+
+				while G_o.has_edge(u,v) or u==v:
+					u = np.random.choice(G_o.nodes())
+					v = np.random.choice(G_o.nodes())
+				
+				try:
+					add_edge(G_o, u, v)
+				except ValueError as err:
+					continue
+
+			elif(move_type == 1):
+				#Delete edge
+				rand_idx = np.random.randint(len(G_o.edges())) 
+				u, v = G_o.edges()[rand_idx]
+				
+				try:
+					remove_edge(G_o, u, v)
+				except ValueError as err:
+					continue
+
+			else:
+				#Reverse edge
+				rand_idx = np.random.randint(len(G_o.edges()))
+				u, v = G_o.edges()[rand_idx]
+				
+				try:
+					reverse_edge(G_o, u, v)
+				except ValueError as err:
+					continue
+
+			new_cost = bic_score(data, G_o)
+			old_cost = bic_score(data, G_best)
+
+			ap = acceptance_probability(old_cost, new_cost, temp)
+			print "Temp, ap : ", temp, ap
+			if ap > np.random.random():
+				G_best = deepcopy(G_o)
+
+			i += 1
+		
+		temp = temp * alpha
+
+	print bic_score(data, G_best)
+
+	network.G = G_best
+
+	return network

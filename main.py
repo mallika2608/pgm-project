@@ -17,35 +17,40 @@ if __name__ == '__main__':
 		data[node] = my_data.T[idx]
 
 
-
-	bn = BayesianNetwork(node_list = nodes, edge_list = [], data = data)
-	
-	start_time = timeit.default_timer()
-
-	best_bn = greedy_hill_climbing_search(data, bn)
-
-	elapsed = timeit.default_timer() - start_time
-
-	print "Greedy hill climbing time : ", elapsed
-
-	nx.draw_networkx(best_bn.G, pos = nx.circular_layout(best_bn.G))
-	
-	plt.savefig("plots/ghc_2_empty.png")
-	plt.clf()
-
-
-
 	bn = BayesianNetwork(node_list = nodes, edge_list = [], data = data)
 
 	start_time = timeit.default_timer()
-
 	best_bn = stochastic_hill_climbing_search(data, bn, max_iters = 500)
-
 	elapsed = timeit.default_timer() - start_time
 
 	print "Stochastic hill climbing time : ", elapsed
 
-	nx.draw_networkx(best_bn.G, pos = nx.circular_layout(best_bn.G))
+	# nx.draw_networkx(best_bn.G, pos = nx.circular_layout(best_bn.G))
+	# plt.savefig("plots/shc_2_500_random.png")
+	# plt.clf()
+
+
+	#bn = BayesianNetwork(node_list = nodes, edge_list = [], data = data)
 	
-	plt.savefig("plots/shc_2_500_empty.png")
+	start_time = timeit.default_timer()
+	best_bn = simulated_annealing(data, best_bn)
+	elapsed = timeit.default_timer() - start_time
+
+	print "Simulated annealing climbing time : ", elapsed
+
+	nx.draw_networkx(best_bn.G, pos = nx.circular_layout(best_bn.G))
+	plt.savefig("plots/simal_random.png")
 	plt.clf()
+
+
+	# bn = BayesianNetwork(node_list = nodes, edge_list = 'random', data = data)
+
+	# start_time = timeit.default_timer()
+	# best_bn = greedy_hill_climbing_search(data, bn)
+	# elapsed = timeit.default_timer() - start_time
+
+	# print "Greedy hill climbing time : ", elapsed
+
+	# nx.draw_networkx(best_bn.G, pos = nx.circular_layout(best_bn.G))
+	# plt.savefig("plots/ghc_2_random.png")
+	# plt.clf()

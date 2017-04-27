@@ -1,0 +1,17 @@
+
+Simulated annealing best : 
+
+Empty graph score : -5544.99738295
+
+SHC (Empty) : -4264.08664644
+-4264.08664644
+Stochastic hill climbing time :  9.28450107574
+GHC (Empty) : -4261.36733827
+-4261.36733827
+Greedy hill climbing time :  15.6672639847
+
+SHC (Random) : -4298.41738381
+Stochastic hill climbing time :  10.3925490379
+GHC (Random) : -4264.08664644
+Greedy hill climbing time :  42.4197750092
+
