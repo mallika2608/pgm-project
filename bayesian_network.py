@@ -47,6 +47,24 @@ class BayesianNetwork():
 		else:
 			self.G.add_edge(u, v)
 
+	def remove_edge(self, u, v):
+
+		self.G.remove_edge(u, v)
+
+	def reverse_edge(self, u, v):
+
+		copyG = self.G.copy()
+		copyG.remove_edge(u, v)
+		copyG.add_edge(v, u)
+
+		if( not nx.is_directed_acyclic_graph(copyG) ):
+			#Cycle detected
+			print "Loop detected. Edge {0}->{1} could not be reversed.".format( u, v )
+			pass
+		else:
+			self.G.remove_edge(u, v)
+			self.G.add_edge(v, u)
+
 
 	# Computes sufficient statistics for a node
 	# Returns 2-d defaultdict indexed by index(value of node) and index(value of parents)
