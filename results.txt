@@ -1,6 +1,8 @@
 
-Simulated annealing best : 
 
+------------------------------------------------
+
+Dataset 2 (interval, clipped)
 Empty graph score : -5544.99738295
 
 SHC (Empty) : -4264.08664644
@@ -14,4 +16,37 @@ SHC (Random) : -4298.41738381
 Stochastic hill climbing time :  10.3925490379
 GHC (Random) : -4264.08664644
 Greedy hill climbing time :  42.4197750092
+
+--------------------------------------------------
+Dataset 2 (interval, full)
+Empty graph : -2783.3023225
+Paper graph : -2719.67761915
+
+Sim anneal (Empty): -2308.47142054
+	temp = 10
+	temp_min = 3.5
+	alpha = 0.95
+	iters = 50
+
+SHC (Empty): 
+-2295.43861388
+
+GHC (Empty): 
+-2295.43861388
+	
+Sim anneal (Random): -2295.43861388
+	temp = 10
+	temp_min = 3.5
+	alpha = 0.95
+	iters = 50
+
+GHC (Random):
+-2303.7005062
+
+SHC (Random): 
+-2295.43861388
+
+--------------------------------------------------
+
+
 

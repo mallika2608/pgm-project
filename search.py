@@ -169,9 +169,9 @@ def acceptance_probability(old_cost, new_cost, temp):
 
 def simulated_annealing(data, network):
 
-	temp = 1.0
-	temp_min = 0.35
-	alpha = 0.8
+	temp = 10
+	temp_min = 3.5
+	alpha = 0.95
 
 	G_best = deepcopy(network.G)
 
@@ -181,7 +181,7 @@ def simulated_annealing(data, network):
 
 	 	print "Current temp ", temp
 
-	 	while i <= 10:
+	 	while i <= 100:
 
 			G_o = deepcopy(G_best)
 
@@ -225,11 +225,11 @@ def simulated_annealing(data, network):
 				except ValueError as err:
 					continue
 
-			new_cost = bic_score(data, G_o)
-			old_cost = bic_score(data, G_best)
+			new_cost = -1 * bic_score(data, G_o)
+			old_cost = -1 * bic_score(data, G_best)
 
 			ap = acceptance_probability(old_cost, new_cost, temp)
-			print "Temp, ap : ", temp, ap
+			print "Temp, ap : ", old_cost, new_cost, temp, ap
 			if ap > np.random.random():
 				G_best = deepcopy(G_o)
 
